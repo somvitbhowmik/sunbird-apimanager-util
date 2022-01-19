@@ -35,6 +35,7 @@ public class TokenSignStep implements TokenStep {
     }
 
     private boolean isJwtTokenValid() {
+        log.info("INSIDE isJwtTokenValid METHOD ");
         currentToken = token.getRefresh_token();
 
         if(currentToken.split("\\.").length != 3 || currentToken.equals(null)){
@@ -117,10 +118,12 @@ public class TokenSignStep implements TokenStep {
                 return false;
             }
         }
+        log.info("isJwtTokenValid METHOD : It is a valid token ");
         return true;
     }
 
     private void generateNewJwtToken() {
+        log.info("Inside generateNewJwtToken METHOD ");
         Map<String, String> header = new HashMap<>();
         Map<String, Object> body = new HashMap<>();
         keyData = keyManager.getRandomKey("access");
@@ -178,10 +181,12 @@ public class TokenSignStep implements TokenStep {
         else {
             log.info("Token issued for UID: " + body.get("sub") + ", aud: " + body.get("aud") + ", exp: " + body.get("exp") + ", iat: " + body.get("iat"));
         }
+        log.info("Inside generateNewJwtToken METHOD : success");
     }
 
     @Override
     public void execute() {
+        log.info("INSIDE EXECUTE METHOD ");
         if(isJwtTokenValid())
             generateNewJwtToken();
         else

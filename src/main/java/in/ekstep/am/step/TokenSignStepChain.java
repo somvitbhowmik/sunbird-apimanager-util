@@ -18,14 +18,17 @@ public class TokenSignStepChain {
     private KeyManager keyManager;
 
     public void execute(TokenSignRequest token, TokenSignResponseBuilder tokenSignResponseBuilder) throws Exception {
+        log.info("INSIDE EXECUTE METHOD: ");
         for (TokenStep step : stepChain(token, tokenSignResponseBuilder)) {
             if (tokenSignResponseBuilder.successful()) {
                 step.execute();
             }
         }
+        log.info("SUCCESS FOR EXECUTE METHOD");
     }
 
     private List<TokenStep> stepChain(TokenSignRequest token, TokenSignResponseBuilder tokenSignResponseBuilder) {
+        log.info("INSIDE stepChain METHOD ");
         TokenSignStep tokenSignStep = new TokenSignStep(token, tokenSignResponseBuilder, keyManager);
         return asList(tokenSignStep);
     }
